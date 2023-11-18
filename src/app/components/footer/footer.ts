@@ -1,6 +1,6 @@
-import { Control } from "../../../utile/control";
+import { Component } from "../../../utile/component";
 
-export class Footer extends Control {
+export class Footer extends Component {
 
     constructor(parent: HTMLElement) {
         super(parent, 'footer', 'footer', 'footer work');

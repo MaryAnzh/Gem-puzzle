@@ -1,6 +1,6 @@
-import { Control } from "../../../utile/control";
+import { Component } from "../../../utile/component";
 
-export class Header extends Control {
+export class Header extends Component {
 
     constructor(parent: HTMLElement) {
         super(parent, 'header', 'header', 'Header work');

@@ -4,12 +4,12 @@ type atrType = {
     value: string,
 }
 
-export class Control {
+export class Component {
     public node;
 
     constructor(parentNode: HTMLElement | null, tagName: string, className: string | string[], content: string = '', atr?: atrType[]) {
         const element = document.createElement(tagName);
-        
+
         if (Array.isArray(className)) {
             className.forEach(name => element.classList.add(name));
         }
@@ -18,7 +18,7 @@ export class Control {
         }
 
         element.textContent = content;
-        
+
         if (parentNode) {
             parentNode.append(element);
         }
