@@ -1,15 +1,20 @@
+import { FieldSize, ITile } from "../../../model/game.interfaces";
 import { Component } from "../../../utile/component";
 
 export class Field extends Component {
     tiles: HTMLElement[];
-    tilesCount = 15;
+    emptyTileIndex = 0;
 
-    constructor(parent: HTMLElement) {
+    constructor(parent: HTMLElement, tiles: ITile[]) {
         super(parent, 'div', 'field');
+        const lineInGrid = Math.sqrt(tiles.length);
+        const tilePresentSize = 100 / lineInGrid;
 
-        [...Array(this.tilesCount).keys()].forEach(el => {
-            const div = new Component(this.node, 'div', 'field__tile');
-            div.node.textContent = (el + 1).toString();
+        this.node.style.gridTemplate = `repeat(${lineInGrid}, ${tilePresentSize}%) / repeat(${lineInGrid}, ${tilePresentSize}%)`;
+        tiles.forEach(({ value, order }) => {
+            const content = value === tiles.length ? '' : `${order}`;
+            const div = new Component(this.node, 'div', 'field__tile', content);
+            div.node.style.order = `${order}`;
         });
     }
 }
