@@ -1,5 +1,11 @@
 import './assets/style/style.scss';
-import { App } from './app/app';
+import { GameModel } from './model/game.model';
 
-const body = document.querySelector('body');
-const app = new App(body);
+const model = new GameModel();
+
+const startGame = async () => {
+    const a = await model.startGame();
+    
+}
+startGame();
+

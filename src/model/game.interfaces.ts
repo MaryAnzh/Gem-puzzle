@@ -9,3 +9,9 @@ export enum FieldSize {
     '5x5' = 5,
     '6X6' = 6
 };
+export enum ArrowDirection {
+    up = 'up',
+    down = 'down',
+    left = 'left',
+    right = 'right'
+}

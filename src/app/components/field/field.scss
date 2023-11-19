@@ -3,6 +3,7 @@
     height: 500px;
     border: 1px solid black;
     display: grid;
+    grid-area: 1/1/1/1;
 
     &__tile {
         border: 1px solid black;

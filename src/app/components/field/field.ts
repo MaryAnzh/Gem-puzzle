@@ -3,7 +3,6 @@ import { Component } from "../../../utile/component";
 
 export class Field extends Component {
     tiles: HTMLElement[];
-    emptyTileIndex = 0;
 
     constructor(parent: HTMLElement, tiles: ITile[]) {
         super(parent, 'div', 'field');
@@ -15,6 +14,12 @@ export class Field extends Component {
             const content = value === tiles.length ? '' : `${order}`;
             const div = new Component(this.node, 'div', 'field__tile', content);
             div.node.style.order = `${order}`;
+        });
+    }
+
+    async tileMoveHandler() {
+        return new Promise(resolve => {
+
         });
     }
 }

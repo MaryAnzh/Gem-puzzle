@@ -1,23 +1,45 @@
 import { FieldSize, ITile } from './game.interfaces';
+import { App } from '../app/app';
 
 export class GameModel {
-    public tiles: ITile[] = [];
-    private tileCount: number;
+    private view: App;
+    private gameSize: FieldSize = FieldSize['4x4'];
+    private tilesCount: number;
     private emptyTileIndex: number;
+    public tiles: ITile[] = [];
 
-    constructor(tilesCount: FieldSize) {
-        this.tileCount = tilesCount ** 2;
-        this.emptyTileIndex = this.tileCount;
+    constructor() {
+        // init by default 4x4
+        this.tilesCount = this.gameSize ** 2;
+        this.emptyTileIndex = this.tilesCount;
+        this.tiles = this.createGameDataArray(this.tilesCount);
 
-        [...Array(this.tileCount).keys()].forEach(el => {
+        //init App
+        this.view = new App();
+        this.view.showField(this.tiles);
+    }
+
+    createGameDataArray(count: number): ITile[] {
+        return [...Array(count).keys()].map(el => {
             const v = el + 1;
             const tile: ITile = {
                 value: v,
                 order: v,
             }
-            this.tiles.push(tile);
+            return tile;
         });
-        console.log(this.tiles);
+    }
+
+    async startGame() {
+        const move = await this.move();
+    }
+
+    async move() {
+        const result = await this.view.tileMoveHandler();
+        console.log(result);
+        if (true) {
+            this.move();
+        }
     }
 
     winChecker = () => {
