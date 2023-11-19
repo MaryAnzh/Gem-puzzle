@@ -15,3 +15,9 @@ export enum ArrowDirection {
     left = 'left',
     right = 'right'
 }
+
+type EmptyTileNeighbor = {
+    value: number,
+    lineInState: number,
+    indexInLine: number,
+}
