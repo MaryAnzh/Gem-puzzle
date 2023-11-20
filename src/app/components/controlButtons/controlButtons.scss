@@ -50,3 +50,8 @@
         grid-column: 3/4;
     }
 }
+
+.disable-button {
+    opacity: 0;
+    pointer-events: none;
+}

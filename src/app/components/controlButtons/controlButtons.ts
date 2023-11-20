@@ -1,4 +1,4 @@
-import { ArrowDirection } from '../../../model/game.interfaces';
+import { ArrowDirection, MoveVariable } from '../../../model/game.interfaces';
 import { Component } from '../../../utile/component';
 
 export class ControlButtons extends Component {
@@ -6,6 +6,7 @@ export class ControlButtons extends Component {
     private bottomButton: Component;
     private leftButton: Component;
     private rightButton: Component;
+    private buttonsSet: Component[];
 
     constructor(parent: HTMLElement) {
         super(parent, 'div', 'control-buttons');
@@ -21,6 +22,7 @@ export class ControlButtons extends Component {
 
         this.rightButton = new Component(this.node, 'button', 'control-buttons__right');
         this.rightButton.node.innerHTML = `<i class="fa-solid fa-arrow-right"></i>`;
+        this.buttonsSet = [this.leftButton, this.rightButton, this.topButton, this.bottomButton];
     }
 
     addOnClickHandler(onClick: (direction: ArrowDirection) => void) {
@@ -30,10 +32,16 @@ export class ControlButtons extends Component {
         this.bottomButton.node.onclick = () => onClick(ArrowDirection.down);
     }
 
+    disableButton(moveDirection: MoveVariable) {
+        this.leftButton.node.classList[moveDirection.left ? 'add' : 'remove']('disable-button');
+        this.rightButton.node.classList[moveDirection.right ? 'add' : 'remove']('disable-button');
+        this.topButton.node.classList[moveDirection.top ? 'add' : 'remove']('disable-button');
+        this.bottomButton.node.classList[moveDirection.bottom ? 'add' : 'remove']('disable-button');
+    }
+
     destroy(): void {
-        this.leftButton.node.onclick = null;
-        this.rightButton.node.onclick = null;
-        this.topButton.node.onclick = null;
-        this.bottomButton.node.onclick = null;
+        this.buttonsSet.forEach(button => button.node.onclick = null);
+        super.destroy();
+
     }
 }

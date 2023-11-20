@@ -16,7 +16,19 @@ export enum ArrowDirection {
     right = 'right'
 }
 
+export type MoveVariable = {
+    left: boolean,
+    right: boolean,
+    top: boolean,
+    bottom: boolean
+}
+
+export type NeighborsDataType = {
+    neighbors: number[],
+    moveData: MoveVariable,
+}
+
 export type IViewData = {
     tiles: number[],
-    neighbors: number[],
+    neighbors: NeighborsDataType,
 }

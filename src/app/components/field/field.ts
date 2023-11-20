@@ -1,4 +1,4 @@
-import { FieldSize, ITile, IViewData } from "../../../model/game.interfaces";
+import { FieldSize, ITile, IViewData, NeighborsDataType } from "../../../model/game.interfaces";
 import { Component } from "../../../utile/component";
 
 export class Field extends Component {
@@ -29,10 +29,10 @@ export class Field extends Component {
         this.node.style.gridTemplate = `repeat(${lineInGrid}, ${tilePresentSize}%) / repeat(${lineInGrid}, ${tilePresentSize}%)`;
     }
 
-    marksEmptyTileNeighbors(neighbors: number[]) {
+    marksEmptyTileNeighbors(neighborsData: NeighborsDataType) {
         this.tiles.forEach(el => {
             const content = el.node.textContent;
-            if (neighbors.includes(+content)) {
+            if (neighborsData.neighbors.includes(+content)) {
                 el.node.style.background = 'pink';
             }
         });

@@ -1,4 +1,4 @@
-import { FieldSize, ITile, IViewData } from './game.interfaces';
+import { FieldSize, ITile, IViewData, MoveVariable, NeighborsDataType } from './game.interfaces';
 import { CreateData } from './createData.model';
 import { Random } from '../utile/random';
 
@@ -13,10 +13,6 @@ export class GameModel {
     private tiles: ITile[] = [];
     private gameState: number[][] = [];
     private gameStateOrder: number[][] = [];
-    private viewData: IViewData = {
-        tiles: [],
-        neighbors: [],
-    }
 
     constructor() {
         this.createData = new CreateData();
@@ -29,10 +25,10 @@ export class GameModel {
 
         this.gameState = this.createData.createGameState(this.tiles, this.gameSize);
         this.gameStateOrder = this.createData.createGameState(this.tiles, this.gameSize);
-        const viewData = this.getViewData();
 
         //init App
         this.view = new App();
+        const viewData = this.getViewData();
         this.view.showField(viewData);
     }
 
@@ -62,12 +58,13 @@ export class GameModel {
         }
     }
 
-    getEmptyTileNeighborsIndex(): number[] {
-        const checkElem = (elem: number | null, array: number[]) => {
-            if (elem !== null) { array.push(elem) }
+    getEmptyTileNeighborsIndex(): NeighborsDataType {
+        const neighbors: NeighborsDataType = {
+            neighbors: [],
+            moveData: { left: false, right: false, top: false, bottom: false }
         }
 
-        return this.gameState.reduce((acc, line, lineIndex) => {
+        return this.gameState.reduce((acc: NeighborsDataType, line, lineIndex) => {
             const emptyTileIndexInLine = line.findIndex(el => el === this.emptyTileValue);
             if (emptyTileIndexInLine > -1) {
                 const left = emptyTileIndexInLine - 1 > -1 ? this.gameState[lineIndex][emptyTileIndexInLine - 1] : null;
@@ -79,10 +76,12 @@ export class GameModel {
                 const bottomLine = lineIndex + 1 < this.gameState.length ? lineIndex + 1 : null;
                 const bottom = bottomLine !== null ? this.gameState[bottomLine][emptyTileIndexInLine] : null;
 
-                [left, right, top, bottom].forEach((el: number | null) => checkElem(el, acc));
+                acc.neighbors = [left, right, top, bottom].filter(el => el);
+                const move: MoveVariable = { left: right === null, right: left === null, top: bottom === null, bottom: top === null };
+                acc.moveData = move;
             }
             return acc;
-        }, []);
+        }, neighbors);
     }
 
     winChecker = () => {

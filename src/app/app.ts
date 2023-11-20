@@ -31,6 +31,7 @@ export class App extends Component {
 
     showField(viewData: IViewData) {
         this.field = new Field(this.fieldWrap.node, viewData);
+        this.buttons.disableButton(viewData.neighbors.moveData);
     }
 
     async tileMoveHandler() {
