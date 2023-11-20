@@ -1,4 +1,4 @@
-import { ArrowDirection, MoveVariable } from '../../../model/game.interfaces';
+import { ArrowDirection, MoveVariable, NeighborsDataType } from '../../../model/game.interfaces';
 import { Component } from '../../../utile/component';
 
 export class ControlButtons extends Component {
@@ -32,16 +32,15 @@ export class ControlButtons extends Component {
         this.bottomButton.node.onclick = () => onClick(ArrowDirection.down);
     }
 
-    disableButton(moveDirection: MoveVariable) {
-        this.leftButton.node.classList[moveDirection.left ? 'add' : 'remove']('disable-button');
-        this.rightButton.node.classList[moveDirection.right ? 'add' : 'remove']('disable-button');
-        this.topButton.node.classList[moveDirection.top ? 'add' : 'remove']('disable-button');
-        this.bottomButton.node.classList[moveDirection.bottom ? 'add' : 'remove']('disable-button');
+    disableButton(neighbors: NeighborsDataType) {
+        this.leftButton.node.classList[neighbors.left.index ? 'add' : 'remove']('disable-button');
+        this.rightButton.node.classList[neighbors.right.index ? 'add' : 'remove']('disable-button');
+        this.topButton.node.classList[neighbors.top.index ? 'add' : 'remove']('disable-button');
+        this.bottomButton.node.classList[neighbors.bottom.index ? 'add' : 'remove']('disable-button');
     }
 
     destroy(): void {
         this.buttonsSet.forEach(button => button.node.onclick = null);
         super.destroy();
-
     }
 }

@@ -31,10 +31,10 @@ export class App extends Component {
 
     showField(viewData: IViewData) {
         this.field = new Field(this.fieldWrap.node, viewData);
-        this.buttons.disableButton(viewData.neighbors.moveData);
+        this.buttons.disableButton(viewData.neighbors);
     }
 
-    async tileMoveHandler() {
+    async tileMoveHandler(): Promise<ArrowDirection> {
         return new Promise(resolve => {
             const onClick = (direction: ArrowDirection) => {
                 resolve(direction);

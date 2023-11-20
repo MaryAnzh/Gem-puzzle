@@ -9,6 +9,7 @@ export enum FieldSize {
     '5x5' = 5,
     '6X6' = 6
 };
+
 export enum ArrowDirection {
     up = 'up',
     down = 'down',
@@ -22,10 +23,15 @@ export type MoveVariable = {
     top: boolean,
     bottom: boolean
 }
-
+interface INeighbors {
+    value: number,
+    index: number
+}
 export type NeighborsDataType = {
-    neighbors: number[],
-    moveData: MoveVariable,
+    left: INeighbors,
+    right: INeighbors,
+    top: INeighbors,
+    bottom: INeighbors
 }
 
 export type IViewData = {

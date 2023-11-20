@@ -30,11 +30,11 @@ export class Field extends Component {
     }
 
     marksEmptyTileNeighbors(neighborsData: NeighborsDataType) {
-        this.tiles.forEach(el => {
-            const content = el.node.textContent;
-            if (neighborsData.neighbors.includes(+content)) {
-                el.node.style.background = 'pink';
+        let key: keyof NeighborsDataType;
+        for (key in neighborsData) {
+            if (neighborsData[key].index > -1) {
+                this.tiles[neighborsData[key].index].node.style.background = 'pink';
             }
-        });
+        }
     }
 }
