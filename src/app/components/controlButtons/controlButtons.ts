@@ -33,10 +33,10 @@ export class ControlButtons extends Component {
     }
 
     disableButton(neighbors: NeighborsDataType) {
-        this.leftButton.node.classList[neighbors.left.index ? 'add' : 'remove']('disable-button');
-        this.rightButton.node.classList[neighbors.right.index ? 'add' : 'remove']('disable-button');
-        this.topButton.node.classList[neighbors.top.index ? 'add' : 'remove']('disable-button');
-        this.bottomButton.node.classList[neighbors.bottom.index ? 'add' : 'remove']('disable-button');
+        this.leftButton.node.classList[neighbors.right.index === -1 ? 'add' : 'remove']('disable-button');
+        this.rightButton.node.classList[neighbors.left.index === -1 ? 'add' : 'remove']('disable-button');
+        this.topButton.node.classList[neighbors.bottom.index === -1 ? 'add' : 'remove']('disable-button');
+        this.bottomButton.node.classList[neighbors.top.index === -1 ? 'add' : 'remove']('disable-button');
     }
 
     destroy(): void {
