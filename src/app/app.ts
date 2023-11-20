@@ -4,7 +4,7 @@ import { Footer } from './components/footer/footer';
 import { Field } from './components/field/field';
 import { ControlButtons } from './components/controlButtons/controlButtons';
 
-import { ArrowDirection, FieldSize, ITile } from '../model/game.interfaces';
+import { ArrowDirection, FieldSize, ITile, IViewData } from '../model/game.interfaces';
 
 export class App extends Component {
     private body: HTMLBodyElement;
@@ -29,12 +29,8 @@ export class App extends Component {
         this.buttons = new ControlButtons(this.fieldWrap.node);
     }
 
-    showField(tiles: ITile[], gameSize: FieldSize) {
-        this.field = new Field(this.fieldWrap.node, tiles, gameSize);
-    }
-
-    marksEmptyTileNeighbors(neighbors: number[]) {
-        this.field.marksEmptyTileNeighbors(neighbors);
+    showField(viewData: IViewData) {
+        this.field = new Field(this.fieldWrap.node, viewData);
     }
 
     async tileMoveHandler() {

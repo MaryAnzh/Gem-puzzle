@@ -1,4 +1,4 @@
-import { FieldSize, ITile } from './game.interfaces';
+import { FieldSize, ITile, IViewData } from './game.interfaces';
 import { CreateData } from './createData.model';
 import { Random } from '../utile/random';
 
@@ -13,6 +13,10 @@ export class GameModel {
     private tiles: ITile[] = [];
     private gameState: number[][] = [];
     private gameStateOrder: number[][] = [];
+    private viewData: IViewData = {
+        tiles: [],
+        neighbors: [],
+    }
 
     constructor() {
         this.createData = new CreateData();
@@ -25,12 +29,20 @@ export class GameModel {
 
         this.gameState = this.createData.createGameState(this.tiles, this.gameSize);
         this.gameStateOrder = this.createData.createGameState(this.tiles, this.gameSize);
-        const emptyTileNeighborsIndex = this.getEmptyTileNeighborsIndex();
+        const viewData = this.getViewData();
 
         //init App
         this.view = new App();
-        this.view.showField(this.tiles, this.gameSize);
-        this.view.marksEmptyTileNeighbors(emptyTileNeighborsIndex);
+        this.view.showField(viewData);
+    }
+
+    getViewData(): IViewData {
+        const emptyTileNeighborsIndex = this.getEmptyTileNeighborsIndex();
+        const tilesForView = this.tiles.map(el => el.value);
+        return {
+            tiles: tilesForView,
+            neighbors: emptyTileNeighborsIndex,
+        }
     }
 
     shuffleTiles(tiles: ITile[]) {

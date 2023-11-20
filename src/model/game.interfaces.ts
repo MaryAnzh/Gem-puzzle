@@ -16,8 +16,7 @@ export enum ArrowDirection {
     right = 'right'
 }
 
-type EmptyTileNeighbor = {
-    value: number,
-    lineInState: number,
-    indexInLine: number,
+export type IViewData = {
+    tiles: number[],
+    neighbors: number[],
 }

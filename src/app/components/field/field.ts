@@ -1,21 +1,25 @@
-import { FieldSize, ITile } from "../../../model/game.interfaces";
+import { FieldSize, ITile, IViewData } from "../../../model/game.interfaces";
 import { Component } from "../../../utile/component";
 
 export class Field extends Component {
     tiles: Component[] = [];
     emptyTileValue: number;
 
-    constructor(parent: HTMLElement, tiles: ITile[], gameSize: FieldSize) {
+    constructor(parent: HTMLElement, viewData: IViewData) {
         super(parent, 'div', 'field');
-        this.emptyTileValue = tiles.length;
-        this.setFieldStyle(tiles.length);
+        const tilesCount = viewData.tiles.length;
+        this.emptyTileValue = tilesCount;
+        this.setFieldStyle(tilesCount);
 
-        tiles.forEach(({ value, order }) => {
-            const content = value === tiles.length ? '' : `${value}`;
+        viewData.tiles.forEach((el, i) => {
+            const content = el === tilesCount ? '' : `${el}`;
+            const order = i + 1;
+
             const div = new Component(this.node, 'div', 'field__tile', content);
             div.node.style.order = `${order}`;
             this.tiles.push(div);
         });
+        this.marksEmptyTileNeighbors(viewData.neighbors);
     }
 
     setFieldStyle(tilesCount: number) {
@@ -31,12 +35,6 @@ export class Field extends Component {
             if (neighbors.includes(+content)) {
                 el.node.style.background = 'pink';
             }
-        });
-    }
-
-    async tileMoveHandler() {
-        return new Promise(resolve => {
-
         });
     }
 }
