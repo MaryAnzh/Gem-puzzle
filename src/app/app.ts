@@ -30,6 +30,9 @@ export class App extends Component {
     }
 
     showField(viewData: IViewData) {
+        if (this.field) {
+            this.field.destroy();
+        }
         this.field = new Field(this.fieldWrap.node, viewData);
         this.buttons.disableButton(viewData.neighbors);
     }

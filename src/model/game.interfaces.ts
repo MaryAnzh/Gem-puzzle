@@ -24,8 +24,8 @@ export type MoveVariable = {
     bottom: boolean
 }
 interface INeighbors {
-    value: number,
-    index: number
+    value: number | null,
+    index: number | null
 }
 export type NeighborsDataType = {
     left: INeighbors,

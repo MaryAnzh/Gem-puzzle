@@ -2,25 +2,18 @@ import { FieldSize, ITile } from './game.interfaces';
 
 export class CreateData {
 
-    createGameDataArray(count: number): ITile[] {
-        return [...Array(count).keys()].map(el => {
-            const v = el + 1;
-            const tile: ITile = {
-                value: v,
-                order: v,
-            }
-            return tile;
-        });
+    createGameDataArray(count: number): number[] {
+        return [...Array(count).keys()].map(el => el + 1);
     }
 
-    createGameState(tiles: ITile[], gameSize: FieldSize) {
+    createGameState(tiles: number[], gameSize: FieldSize) {
         const state: number[][] = [];
         for (let i = 0; i < tiles.length; i++) {
             const line = Math.floor(i / gameSize);
             if (i % gameSize === 0) {
                 state.push([]);
             }
-            state[line].push(tiles[i].value);
+            state[line].push(tiles[i]);
         }
         return state;
     }

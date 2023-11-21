@@ -32,9 +32,14 @@ export class Field extends Component {
     marksEmptyTileNeighbors(neighborsData: NeighborsDataType) {
         let key: keyof NeighborsDataType;
         for (key in neighborsData) {
-            if (neighborsData[key].index > -1) {
+            if (neighborsData[key].index !== null && neighborsData[key].index > -1) {
                 this.tiles[neighborsData[key].index].node.style.background = 'pink';
             }
         }
+    }
+
+    destroy(): void {
+        this.tiles = null;
+        super.destroy();
     }
 }
