@@ -45,6 +45,11 @@ export class App extends Component {
             this.buttons.addOnClickHandler(onClick);
         });
     }
+    gameOver() {
+        this.field.destroy();
+        this.buttons.destroy();
+        this.main.node.innerHTML = `<h2>Game over</h2>`;
+    }
 
     destroy(): void {
         super.destroy();

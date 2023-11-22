@@ -8,7 +8,7 @@ export class GameModel {
     private createData: CreateData;
     private view: App;
 
-    private gameSize: FieldSize = FieldSize['4x4'];
+    private gameSize: FieldSize = FieldSize['3x3'];
     private tiles: number[] = [];
     private gameStateOrder: number[][] = [];
     private viewData: IViewData;
@@ -20,7 +20,7 @@ export class GameModel {
         const tilesCount = this.gameSize ** 2;
         this.tiles = this.createData.createGameDataArray(tilesCount);
         this.gameStateOrder = this.createData.createGameState(this.tiles, this.gameSize);
-        this.shuffleTiles(this.tiles);
+        //this.shuffleTiles(this.tiles);
 
         //init App
         this.view = new App();
@@ -90,13 +90,18 @@ export class GameModel {
         this.view.showField(this.viewData);
     }
 
-    async startGame() {
-        const move = await this.move();
+    async startGame(): Promise<string> {
+        console.log('Start game');
+        const result = await this.move();
+        console.log(`${result} from start game`);
+        return result;
     }
 
-    async move() {
+    async move(): Promise<string> {
         const result = await this.view.tileMoveHandler();
         const emptyTileIndex = this.tiles.findIndex(el => el === this.tiles.length);
+        const minArraySize = -1;
+        const maxArraySize = this.tiles.length;
 
         if (result === ArrowDirection.left) {
             const rightTileIndex = this.viewData.neighbors.right.index;
@@ -106,28 +111,44 @@ export class GameModel {
             const leftTileIndex = this.viewData.neighbors.left.index;
             this.replaceTiles(leftTileIndex, emptyTileIndex);
         }
+        if (result === ArrowDirection.up) {
+            const bottomIndex = emptyTileIndex + this.gameSize;
+            if (bottomIndex < maxArraySize) {
+                this.replaceTiles(bottomIndex, emptyTileIndex);
+            }
+        }
+        if (result === ArrowDirection.down) {
+            const topIndex = emptyTileIndex - this.gameSize;
+            if (topIndex > minArraySize) {
+                this.replaceTiles(topIndex, emptyTileIndex);
+            }
+        }
         this.showView();
-        this.move();
+
+        const win = this.winChecker()
+        if (win) {
+            return Promise.resolve('win');
+        }
+        return this.move();
     }
 
     replaceTiles(tileIndex: number, emptyTileIndex: number) {
         const movingElement = this.tiles[tileIndex];
 
         this.tiles[tileIndex] = this.tiles[emptyTileIndex];
-        console.log(` this.tiles[tileIndex] ${this.tiles[tileIndex]}`);
         this.tiles[emptyTileIndex] = movingElement;
-        console.log(`this.tiles[emptyTileIndex] : ${this.tiles[emptyTileIndex]}`);
-        console.log(this.tiles);
     }
-
 
     winChecker = () => {
         let win = true;
-        // this.tiles.forEach(({ value, order }) => {
-        //     if (value === order) {
-        //         win = false;
-        //     }
-        // });
+        this.tiles.forEach((el, i) => {
+            if (el !== (i + 1)) {
+                win = false;
+            }
+        });
         return win;
+    }
+    gameOver() {
+        this.view.gameOver();
     }
 }

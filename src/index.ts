@@ -3,9 +3,11 @@ import { GameModel } from './model/game.model';
 
 const model = new GameModel();
 
-const startGame = async () => {
-    const a = await model.startGame();
-    
+const game = async () => {
+    model.startGame().then((res) => {
+        console.log(res, 'index.ts');
+        model.gameOver();
+    });
 }
-startGame();
+game();
 
